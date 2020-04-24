@@ -1,0 +1,16 @@
+.DS_Store
+xcuserdata/
+.idea
+.vscode
+
+workspace.xml
+tasks.xml
+
+node_modules
+
+npm-debug.log
+
+coverage/
+database.rules.json
+
+firebase-debug.log

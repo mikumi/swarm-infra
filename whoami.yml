@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  whoami:
+    image: jwilder/whoami
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:whoami.${SERVICES_DOMAIN?Variable SERVICES_DOMAIN not set}
+        - traefik.enable=true
+        - traefik.port=8000
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        - traefik.frontend.entryPoints=http,https
+        - traefik.frontend.redirect.entryPoint=https
+    healthcheck:
+      test: ping -c 1 localhost
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s # Fetching data from airtable takes quite a while
+    networks:
+      traefik-public:
+
+networks:
+  traefik-public:
+    external: true
