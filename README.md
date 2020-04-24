@@ -42,6 +42,7 @@ Then deploy services, either by calling script:
 ./deploy_service.sh papertrail.yml
 ./deploy_service.sh traefik.yml
 ./deploy_service.sh portainer.yml
+./deploy_service.sh swarmprom.yml # May be unstable and not production ready.
 ```
 
 or manually:
@@ -49,7 +50,12 @@ or manually:
 docker-compose -f traefik.yml config | docker stack deploy --with-registry-auth --prune --compose-file - traefik
 docker-compose -f papertrail.yml config | docker stack deploy --with-registry-auth --prune --compose-file - papertrail
 docker-compose -f portainer.yml config | docker stack deploy --with-registry-auth --prune --compose-file - portainer
+# Swarmprom may be unstable and not production ready.
+docker-compose -f swarmprom.yml config | docker stack deploy --with-registry-auth --prune --compose-file - swarmprom
 ```
+
+Note that swarmprom also has a significant continuous CPU consumption. 10-20% in my test on a medium sized lightsail 
+instance (caused by c-advisor)
 
 Then deploy a sample application:
 
@@ -61,6 +67,11 @@ Access services via:
 - https://traefik.YOUR_SERVICES_DOMAIN
 - https://consul.YOUR_SERVICES_DOMAIN
 - https://portainer.YOUR_SERVICES_DOMAIN
+If swarmprom is used:
+- https://grafana.YOUR_SERVICES_DOMAIN
+- https://alertmanager.YOUR_SERVICES_DOMAIN
+- https://unsee.YOUR_SERVICES_DOMAIN
+- https://prometheus.YOUR_SERVICES_DOMAIN
 
 Access sample application via:
 - https://whoami.YOUR_SERVICES_DOMAIN 
